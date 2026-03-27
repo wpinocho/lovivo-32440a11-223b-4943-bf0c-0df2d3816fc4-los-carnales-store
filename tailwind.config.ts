@@ -19,6 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
+				sans: ['Poppins', 'sans-serif'],
+				display: ['Montserrat', 'sans-serif'],
 				'dm-sans': ['"DM Sans"', 'sans-serif'],
 				'inter': ['Inter', 'sans-serif'],
 				'lato': ['Lato', 'sans-serif'],
@@ -69,6 +71,14 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				brand: {
+					red:    'hsl(var(--brand-red))',
+					yellow: 'hsl(var(--brand-yellow))',
+					green:  'hsl(var(--brand-green))',
+					orange: 'hsl(var(--brand-orange))',
+					cream:  'hsl(var(--brand-cream))',
+					dark:   'hsl(var(--brand-dark))',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -87,25 +97,34 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to:   { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
-				}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to:   { height: '0' }
+				},
+				marquee: {
+					from: { transform: 'translateX(0)' },
+					to:   { transform: 'translateX(-50%)' },
+				},
+				float: {
+					'0%, 100%': { transform: 'translateY(0px) rotate(-1.5deg)' },
+					'50%':      { transform: 'translateY(-18px) rotate(1.5deg)' },
+				},
+				'float-delayed': {
+					'0%, 100%': { transform: 'translateY(0px) rotate(1deg)' },
+					'50%':      { transform: 'translateY(-14px) rotate(-1deg)' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up':   'accordion-up 0.2s ease-out',
+				marquee:          'marquee 35s linear infinite',
+				'marquee-fast':   'marquee 18s linear infinite',
+				float:            'float 5s ease-in-out infinite',
+				'float-delayed':  'float-delayed 6s ease-in-out 1.5s infinite',
+				'float-slow':     'float-delayed 7s ease-in-out 0.8s infinite',
 			}
 		}
 	},

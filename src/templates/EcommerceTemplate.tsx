@@ -4,20 +4,18 @@ import { BrandLogoLeft } from '@/components/BrandLogoLeft'
 import { SocialLinks } from '@/components/SocialLinks'
 import { FloatingCart } from '@/components/FloatingCart'
 import { ProfileMenu } from '@/components/ProfileMenu'
+import { PromoBar } from '@/components/PromoBar'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { ShoppingCart } from 'lucide-react'
 import { useCartUISafe } from '@/components/CartProvider'
 import { useCart } from '@/contexts/CartContext'
 import { useCollections } from '@/hooks/useCollections'
-import { Input } from '@/components/ui/input'
 import { ScrollLink } from '@/components/ScrollLink'
 
 /**
  * EDITABLE TEMPLATE - EcommerceTemplate
- * 
- * Template específico para páginas de ecommerce con header, footer y cart.
- * El agente IA puede modificar completamente el diseño, colores, layout.
+ * Los Carnales brand — Hippeas-inspired layout
  */
 
 interface EcommerceTemplateProps {
@@ -39,7 +37,7 @@ export const EcommerceTemplate = ({
   headerClassName,
   footerClassName,
   layout = 'default',
-  hideFloatingCartOnMobile = false
+  hideFloatingCartOnMobile = false,
 }: EcommerceTemplateProps) => {
   const cartUI = useCartUISafe()
   const openCart = cartUI?.openCart ?? (() => {})
@@ -47,114 +45,138 @@ export const EcommerceTemplate = ({
   const totalItems = getTotalItems()
   const { hasCollections, loading: loadingCollections } = useCollections()
 
+  /* ── Header ── */
   const header = (
-    <div className={`py-2 ${headerClassName}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <BrandLogoLeft />
+    <div className={headerClassName}>
+      {/* Promo bar */}
+      <PromoBar />
 
-          {/* Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <nav className="flex space-x-6">
+      {/* Main nav */}
+      <div className="bg-background border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+
+            {/* Logo */}
+            <BrandLogoLeft />
+
+            {/* Nav links — desktop */}
+            <nav className="hidden md:flex items-center gap-8">
               {!loadingCollections && hasCollections && (
-                <ScrollLink 
-                  to="/#collections" 
-                  className="text-foreground/70 hover:text-foreground transition-colors"
+                <ScrollLink
+                  to="/#collections"
+                  className="text-foreground/60 hover:text-primary font-bold uppercase text-xs tracking-widest transition-colors"
                 >
                   Colecciones
                 </ScrollLink>
               )}
-              <ScrollLink 
-                to="/#products" 
-                className="text-foreground/70 hover:text-foreground transition-colors"
+              <ScrollLink
+                to="/#products"
+                className="text-foreground/60 hover:text-primary font-bold uppercase text-xs tracking-widest transition-colors"
               >
                 Productos
               </ScrollLink>
-              <Link 
-                to="/blog" 
-                className="text-foreground/70 hover:text-foreground transition-colors"
+              <Link
+                to="/blog"
+                className="text-foreground/60 hover:text-primary font-bold uppercase text-xs tracking-widest transition-colors"
               >
                 Blog
               </Link>
             </nav>
-          </div>
 
-          {/* Profile & Cart */}
-          <div className="flex items-center space-x-2">
-            <ProfileMenu />
-            
-            {showCart && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={openCart}
-                className="relative"
-                aria-label="Ver carrito"
-              >
-                <ShoppingCart className="h-5 w-5" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                    {totalItems > 99 ? '99+' : totalItems}
-                  </span>
-                )}
-              </Button>
-            )}
+            {/* Right actions */}
+            <div className="flex items-center gap-1">
+              <ProfileMenu />
+
+              {showCart && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={openCart}
+                  className="relative"
+                  aria-label="Ver carrito"
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  {totalItems > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-black rounded-full h-5 w-5 flex items-center justify-center">
+                      {totalItems > 99 ? '99+' : totalItems}
+                    </span>
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* Page Title */}
-        {pageTitle && (
-          <div className="mt-6">
-            <h1 className="text-3xl font-bold text-foreground">
-              {pageTitle}
-            </h1>
-          </div>
-        )}
       </div>
+
+      {/* Page title */}
+      {pageTitle && (
+        <div className="bg-background border-b border-border">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 className="text-3xl font-black uppercase text-foreground">{pageTitle}</h1>
+          </div>
+        </div>
+      )}
     </div>
   )
 
+  /* ── Footer ── */
   const footer = (
-    <div className={`bg-black text-white py-12 ${footerClassName}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className={`bg-brand-dark py-16 ${footerClassName ?? ''}`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+
           {/* Brand */}
           <div>
-            <BrandLogoLeft />
-            <p className="mt-4 text-white/70">
-              Tu tienda online de confianza
+            <BrandLogoLeft dark />
+            <p className="mt-4 text-primary-foreground/50 text-sm leading-relaxed max-w-xs">
+              Chicharrones y corn puffs de maíz real con sabores mexicanos auténticos.
+              Sin cerdo. Puro sabor.
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-white">Enlaces</h3>
-            <div className="space-y-2">
-              <Link 
-                to="/" 
-                className="block text-white/70 hover:text-white transition-colors"
-              >
-                Inicio
-              </Link>
-              <Link 
-                to="/blog" 
-                className="block text-white/70 hover:text-white transition-colors"
-              >
-                Blog
-              </Link>
+            <h3 className="font-black uppercase tracking-widest text-xs text-primary-foreground/40 mb-5">
+              Tienda
+            </h3>
+            <div className="space-y-3">
+              {[
+                { label: 'Todos los Productos', to: '/#products' },
+                { label: 'Colecciones', to: '/#collections' },
+                { label: 'Blog', to: '/blog' },
+              ].map(({ label, to }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="block text-primary-foreground/55 hover:text-secondary font-medium text-sm transition-colors"
+                >
+                  {label}
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Social Links */}
+          {/* Social */}
           <div>
-            <h3 className="font-semibold mb-4 text-white">Síguenos</h3>
+            <h3 className="font-black uppercase tracking-widest text-xs text-primary-foreground/40 mb-5">
+              Síguenos
+            </h3>
             <SocialLinks />
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/20 text-center text-white/70">
-          <p>&copy; 2025 Tu Tienda. Todos los derechos reservados.</p>
+        <div className="border-t border-primary-foreground/15 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-primary-foreground/35 text-xs">
+            © 2025 Los Carnales. Todos los derechos reservados.
+          </p>
+          <div className="flex gap-6">
+            <a href="#" className="text-primary-foreground/35 hover:text-primary-foreground text-xs transition-colors">
+              Privacidad
+            </a>
+            <a href="#" className="text-primary-foreground/35 hover:text-primary-foreground text-xs transition-colors">
+              Términos
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -162,7 +184,7 @@ export const EcommerceTemplate = ({
 
   return (
     <>
-      <PageTemplate 
+      <PageTemplate
         header={header}
         footer={footer}
         className={className}
@@ -170,7 +192,7 @@ export const EcommerceTemplate = ({
       >
         {children}
       </PageTemplate>
-      
+
       {showCart && <FloatingCart hideOnMobile={hideFloatingCartOnMobile} />}
     </>
   )
